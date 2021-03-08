@@ -8,7 +8,7 @@
     <title>VENTAS CSMA</title>
     <link rel="icon" type="image/png" href="../media/recursos/ico.png" />
 </head>
-<body>
+<body onload="cancelar_compra()">
     <div class="container text-white d-flex justify-content-center my-2">
 
         <h1 class="px-3" style="border:white 2px solid; border-radius: 25px;">VENTAS EN CAFETERIA</h1>
@@ -157,6 +157,18 @@
 </style>
 
 <script>
+
+        function quitarproducto(index){
+                $.ajax({
+                    type:"POST",
+                    data:"ind=" +index,
+                    url:"./quitar_producto.php",
+                    success:function(r){
+                        $('#carrito_temp').load("carrito_temp.php");
+                        alertify.success("Producto quitado");
+                    }
+                });
+            }
 
         function prestar_dinero(){
             if($('#codigo').val()==""){
