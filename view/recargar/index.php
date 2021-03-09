@@ -189,6 +189,7 @@
                     alertify.success("Recarga de BIT-MATHEWS exitosa!!");
                     $('input[id="valor_recarga"]').val('');
                     solicitar_informacion();
+                    setTimeout ("window.location.reload()", 2000);
                     return false;
                 }else if(r==3){
                     alertify.error("No puedes recargar valores negativos o nulos");
@@ -217,6 +218,7 @@
                     alertify.success("Retiro de BIT-MATHEWS exitosa!!");
                     solicitar_informacion();
                     $('input[id="valor_retiro"]').val('');
+                    setTimeout ("window.location.reload()", 2000);
                     return false;
                 }else if(r==3){
                     alertify.error("No puedes ingresar valores negativos o nulos");
@@ -288,6 +290,7 @@
                 if(r==1){
                     alertify.success("Operacion exitosa!! estas al dia :D");
                     solicitar_informacion();
+                    setTimeout ("Location.reload();", 2000);
                     return false;
                 }else if(r==2){
                     alertify.error("Error en el proceso, debe ser que no escaneaste nada");

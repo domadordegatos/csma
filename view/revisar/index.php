@@ -39,9 +39,9 @@
                 <div class="col-sm-6 d-flex align-items-center">
                     <input class="form-control col-sm-12 mt-2" autofocus type="text" id="codigo" name="codigo" placeholder="123..">
                 </div>
-                <div class="col-sm-4 d-flex align-items-center">
+                <!-- <div class="col-sm-4 d-flex align-items-center">
                     <input class="form-control col-sm-12 mt-2" type="date" id="date" name="date">
-                </div>
+                </div> -->
             </div>
 
             <div id="tabla_consulta" style="height: 520px; overflow: scroll; overflow-x: hidden;"></div>
@@ -130,6 +130,30 @@
                         }else if(r==2){
                             alertify.error("No existen registros");
                             $('#tabla_consulta').load("temp_consulta.php");
+                            return false;
+                        }else{
+                            alertify.error("Error en el proceso");
+                        }
+                    }
+                });
+            });
+          });
+
+          $(document).ready(function(){
+            $("input[name=date]").change(function(){
+            cadena="form1=" + $('#date').val()+
+                   "&form2=" + $('#codigo').val();
+                    $.ajax({
+                    type:"POST",
+                    url:"../../controller/consulta_movimientos_fecha.php", //validacion de datos de registro
+                    data:cadena,
+                    success:function(r){
+                        if(r==1){
+                            alertify.success("Registros encontrados");
+                            $('#tabla_consulta_detallada').load("consulta_detallada.php");
+                        }else if(r==2){
+                            alertify.error("No existen registros");
+                            $('#tabla_consulta_detallada').load("consulta_detallada.php");
                             return false;
                         }else{
                             alertify.error("Error en el proceso");

@@ -27,7 +27,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="../revisar/index.php">Movimientos</a>
       </li>
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
@@ -40,7 +40,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Disabled</a>
-      </li>
+      </li> -->
     </ul>
     <ul class="navbar-nav">
       <li class="d-flex align-items-center mr-3"><?php echo "Usuario: ";?><strong><?php echo $user."--"; ?></strong> <?php echo "Rol: "; ?><strong> <?php echo $ver[6]; ?></strong></li>
