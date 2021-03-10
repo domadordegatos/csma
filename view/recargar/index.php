@@ -8,6 +8,7 @@
     <title>RECARGA CSMA</title>
     <link rel="icon" type="image/png" href="../media/recursos/ico.png" />
 </head>
+<?php if($ver[5] == 2 || $ver[5] == 3){ ?>
 <body>
     <div class="container text-white d-flex justify-content-center my-2">
 
@@ -113,6 +114,7 @@
         </div>
     </div>
 </body>
+<?php } ?>
 </html>
 
 <style>

@@ -29,6 +29,8 @@
             $time = time();
             $hora = date("H:i:s",$time);
             $fecha= date('Y-m-d');
+            $user = $_SESSION['user'];
+            $id_admin=self::id_admin($user);
 
           $datos=$_SESSION['carrito_temp'];$id=$_POST['form1'];
 
@@ -50,7 +52,7 @@
                     $d=explode("||", $datos[$i]);
         
                     $nuevo_saldo=$saldo-$d[2];
-                    $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','1','$id_user','$d[0]','$d[2]','$saldo','$nuevo_saldo','$fecha','$hora')";
+                    $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','$id_admin','$id_user','$d[0]','$d[2]','$saldo','$nuevo_saldo','$fecha','$hora')";
                       $r=$r + $result=mysqli_query($conexion,$insert);
                   }
                   return $r;
@@ -63,6 +65,9 @@
             $time = time();
             $hora = date("H:i:s",$time);
             $fecha= date('Y-m-d');
+
+            $user = $_SESSION['user'];
+            $id_admin=self::id_admin($user);
 
           $datos=$_SESSION['carrito_temp'];$id=$_POST['form1'];
 
@@ -88,7 +93,7 @@
                     $d=explode("||", $datos[$i]);
         
                     $nuevo_saldo=$saldo-$d[2];
-                    $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','1','$id_user','$d[0]','$d[2]','$saldo','$nuevo_saldo','$fecha','$hora')";
+                    $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','$id_admin','$id_user','$d[0]','$d[2]','$saldo','$nuevo_saldo','$fecha','$hora')";
                       $r=$r + $result=mysqli_query($conexion,$insert);
                   }
                   return $r;
@@ -123,6 +128,15 @@
           require_once "conexion.php";
           $conexion=conexion();
           $sql="SELECT id_usuario from usuarios where id_tarjeta = '$id_user'";
+          $result=mysqli_query($conexion,$sql);
+          $id=mysqli_fetch_row($result)[0];
+            return $id;
+        }
+
+        public function id_admin($id_admin){
+          require_once "conexion.php";
+          $conexion=conexion();
+          $sql="SELECT id_user from users_admins where user = '$id_admin'";
           $result=mysqli_query($conexion,$sql);
           $id=mysqli_fetch_row($result)[0];
             return $id;

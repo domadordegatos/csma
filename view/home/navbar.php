@@ -18,15 +18,21 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+    <?php if($ver[5] == 2 || $ver[5] == 3){ ?>
       <li class="nav-item active">
         <a class="nav-link" href="../recargar/index.php">Control</a>
       </li>
+      <?php } ?>
+      <?php if($ver[5] == 3 || $ver[5] == 1){ ?>
       <li class="nav-item active">
         <a class="nav-link" href="../vender/index.php">Ventas</a>
       </li>
+      <?php } ?>
+      <?php if($ver[5] == 2 || $ver[5] == 3){ ?>
       <li class="nav-item active">
         <a class="nav-link" href="../revisar/index.php">Movimientos</a>
       </li>
+      <?php } ?>
       <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown

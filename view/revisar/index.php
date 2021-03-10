@@ -16,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta Bit-Mathews</title>
 </head>
+<?php if($ver[5] == 2 || $ver[5] == 3){ ?>
 <body onload="r_codigo();">
 
     <div class="container-x d-flex mt-3">
@@ -54,6 +55,7 @@
     </div>
     
 </body>
+<?php } ?>
 </html>
 
 

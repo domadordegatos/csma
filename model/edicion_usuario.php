@@ -30,6 +30,9 @@
             $valor=$_POST['form1']; $id=$_POST['form2'];
             $id_factura=self::crearfolio();
             $id_usuario=self::id_usuario($id);
+            
+            $user = $_SESSION['user'];
+            $id_admin=self::id_admin($user);
 
             $sql="SELECT usuarios.saldo FROM usuarios where usuarios.id_tarjeta = '$id'";
             $ejecutar=mysqli_query($conexion, $sql);
@@ -47,7 +50,7 @@
                         $sql="UPDATE usuarios SET saldo = '$nuevo_saldo' WHERE id_tarjeta = '$id'";
                         $ejecutar=mysqli_query($conexion, $sql);
                         
-                        $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','1','$id_usuario','14','$valor','$ver[0]','$nuevo_saldo','$fecha','$hora')";
+                        $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','$id_admin','$id_usuario','14','$valor','$ver[0]','$nuevo_saldo','$fecha','$hora')";
                         $ejecutar2=mysqli_query($conexion, $insert);
 
                         if($ejecutar){/* si lo ejecuto */
@@ -92,6 +95,9 @@
             $fecha= date('Y-m-d');
             $id_factura=self::crearfolio();
             $id_usuario=self::id_usuario($id);
+            
+            $user = $_SESSION['user'];
+            $id_admin=self::id_admin($user);
 
             $sql="SELECT usuarios.saldo FROM usuarios where usuarios.id_tarjeta = '$id'";
             $ejecutar=mysqli_query($conexion, $sql);
@@ -109,7 +115,7 @@
                         $sql="UPDATE usuarios SET saldo = '$nuevo_saldo' WHERE id_tarjeta = '$id'";
                         $ejecutar=mysqli_query($conexion, $sql);
 
-                        $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','1','$id_usuario','15','$valor','$ver[0]','$nuevo_saldo','$fecha','$hora')";
+                        $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','$id_admin','$id_usuario','15','$valor','$ver[0]','$nuevo_saldo','$fecha','$hora')";
                         $ejecutar2=mysqli_query($conexion, $insert);
                         
                         if($ejecutar){/* si lo ejecuto */
@@ -131,6 +137,9 @@
             $fecha= date('Y-m-d');
             $id_factura=self::crearfolio();
             $id_usuario=self::id_usuario($id);
+            
+            $user = $_SESSION['user'];
+            $id_admin=self::id_admin($user);
 
             $sql="SELECT usuarios.saldo FROM usuarios where usuarios.id_tarjeta = '$id'";
             $ejecutar=mysqli_query($conexion, $sql);
@@ -144,7 +153,7 @@
                     $sql="UPDATE usuarios SET saldo = '0' WHERE id_tarjeta = '$id'";
                     $ejecutar=mysqli_query($conexion, $sql);
 
-                    $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','1','$id_usuario','16','0','$ver[0]','0','$fecha','$hora')";
+                    $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','$id_admin','$id_usuario','16','0','$ver[0]','0','$fecha','$hora')";
                     $ejecutar2=mysqli_query($conexion, $insert);
                             if($ejecutar){/* si lo ejecuto */
                                 echo 1; /* exitoso */
@@ -155,6 +164,16 @@
             }
 
         }
+
+        public function id_admin($id_admin){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $sql="SELECT id_user from users_admins where user = '$id_admin'";
+            $result=mysqli_query($conexion,$sql);
+            $id=mysqli_fetch_row($result)[0];
+              return $id;
+              echo "id=>".$id;
+          }
 
 
     }
