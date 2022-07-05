@@ -18,7 +18,7 @@
         <div class="contenedor1" style="width: 30%; margin-left: 3rem; margin-right: 3rem;">
             <div class="row my-3">
                 <div class="col-sm-6 border border-white d-flex justify-content-center align-items-center" style="border-top-left-radius: 20px; border-bottom-left-radius: 20px;">
-                    <img src="../media/recursos/profile.png" id="u_img" width="50%" alt="">
+                    <img src="../media/recursos/profile.png" id="u_img" width="95%" alt="">
                 </div>
                 <div class="col-sm-6">
                     <div class="row border border-white p-1" style="border-top-right-radius: 20px;">
@@ -105,20 +105,44 @@
                     <button class="btn btn-success" onclick="carrito_compras(10)">
                         <img src="../media/recursos/productos/10.png" alt="" width="80px" height="80px">
                     </button>
-                    <button class="btn btn-dark" onclick="carrito_compras(5)">
+                    <!-- <button class="btn btn-dark" onclick="carrito_compras(5)">
                         <img src="../media/recursos/productos/5.png" alt="" width="80px" height="80px">
-                    </button>
-                    <button class="btn btn-dark" onclick="carrito_compras(6)">
+                    </button> -->
+                    <!--<button class="btn btn-dark" onclick="carrito_compras(6)">
                         <img src="../media/recursos/productos/6.png" alt="" width="80px" height="80px">
-                    </button>
+                    </button>-->
                     <button class="btn btn-outline-light" onclick="carrito_compras(11)">
                         <img src="../media/recursos/productos/11.png" alt="" width="80px" height="80px">
                     </button>
-                    <button class="btn btn-outline-light" onclick="carrito_compras(12)">
+                    <!--<button class="btn btn-outline-light" onclick="carrito_compras(17)">
+                        <img src="../media/recursos/productos/17.png" alt="" width="80px" height="80px">
+                    </button>-->
+                    <!--<button class="btn btn-outline-light" onclick="carrito_compras(12)">
                         <img src="../media/recursos/productos/12.png" alt="" width="80px" height="80px">
-                    </button>
-                    <button class="btn btn-danger" onclick="carrito_compras(13)">
+                    </button>-->
+                    <!--<button class="btn btn-danger" onclick="carrito_compras(13)">
                         <img src="../media/recursos/productos/13.png" alt="" width="80px" height="80px">
+                    </button>-->
+                    <button class="btn btn-warning" onclick="carrito_compras(18)">
+                        <img src="../media/recursos/productos/18.png" alt="" width="80px" height="80px">
+                    </button>
+                    <button class="btn btn-warning" onclick="carrito_compras(19)">
+                        <img src="../media/recursos/productos/19.png" alt="" width="80px" height="80px">
+                    </button>
+                    <button class="btn btn-warning" onclick="carrito_compras(20)">
+                        <img src="../media/recursos/productos/20.png" alt="" width="80px" height="80px">
+                    </button>
+		    <button class="btn btn-info" onclick="carrito_compras(21)">
+                        <img src="../media/recursos/productos/21.png" alt="" width="80px" height="80px">
+                    </button>
+		    <button class="btn btn-info" onclick="carrito_compras(22)">
+                        <img src="../media/recursos/productos/22.png" alt="" width="80px" height="80px">
+                    </button>
+		    <button class="btn btn-info" onclick="carrito_compras(23)">
+                        <img src="../media/recursos/productos/23.png" alt="" width="80px" height="80px">
+                    </button>
+		    <button class="btn btn-info" onclick="carrito_compras(24)">
+                        <img src="../media/recursos/productos/24.png" alt="" width="80px" height="80px">
                     </button>
                 </div>
                 <div class="col-sm-12">
@@ -208,6 +232,7 @@
                 alertify.error("Debes escanear un codigo");
                 return false;
             }
+            
             cadena="form1=" + $('#codigo').val();
                 $.ajax({
                     type:"POST",
@@ -268,6 +293,9 @@
 
     $(document).ready(function(){
     $("input[name=codigo]").change(function(){
+        if($('#codigo').val()=="CFFL53WJN"){
+            document.getElementById("codigo").value = "1122334455";
+            }
       cadena="form1=" + $('#codigo').val();
             $.ajax({
               type:"POST",

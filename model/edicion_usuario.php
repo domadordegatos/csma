@@ -127,6 +127,46 @@
 
         }
 
+        function abono(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $valor=$_POST['form1']; $id=$_POST['form2'];
+            date_default_timezone_set('America/Bogota');
+            $time = time();
+            $hora = date("H:i:s",$time);
+            $fecha= date('Y-m-d');
+            $id_factura=self::crearfolio();
+            $id_usuario=self::id_usuario($id);
+            
+            $user = $_SESSION['user'];
+            $id_admin=self::id_admin($user);
+
+            $sql="SELECT usuarios.saldo FROM usuarios where usuarios.id_tarjeta = '$id'";
+            $ejecutar=mysqli_query($conexion, $sql);
+            $ver=mysqli_fetch_row($ejecutar);
+            if(mysqli_num_rows($ejecutar)<=0){ /* no hay registro del usuario */
+                echo 2; /* no existe el usuario en bd */
+            }else{/* hay registros del usuario */
+                if($valor<=0){/* estas tratando de ingresar un valor nulo */
+                    echo 3;
+                }else{/* valor valido */
+                    if($valor>$ver[0]){
+                        $nuevo_saldo = $ver[0] + $valor;
+                        $sql="UPDATE usuarios SET saldo = '$nuevo_saldo' WHERE id_tarjeta = '$id'";
+                        $ejecutar=mysqli_query($conexion, $sql);
+
+                        $insert="INSERT INTO movimientos_dinero VALUES ('','$id_factura','$id_admin','$id_usuario','15','$valor','$ver[0]','$nuevo_saldo','$fecha','$hora')";
+                        $ejecutar2=mysqli_query($conexion, $insert);
+                        
+                        if($ejecutar){/* si lo ejecuto */
+                            echo 1; /* exitoso */
+                        }
+                }
+            }
+
+        }
+    }
+
         function pagar_deudas(){
             require_once "conexion.php";
             $conexion=conexion();

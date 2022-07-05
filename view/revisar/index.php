@@ -120,6 +120,9 @@
 
         $(document).ready(function(){
             $("input[name=codigo]").change(function(){
+                if($('#codigo').val()=="CFFL53WJN"){
+            document.getElementById("codigo").value = "1122334455";
+            }
             cadena="form1=" + $('#codigo').val();
                     $.ajax({
                     type:"POST",

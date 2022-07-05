@@ -25,7 +25,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-sm-6 border border-white d-flex justify-content-center align-items-center" style="border-top-left-radius: 20px; border-bottom-left-radius: 20px;">
-                    <img src="../media/recursos/profile.png" id="u_img" width="50%" alt="">
+                    <img src="../media/recursos/profile.png" id="u_img" width="95%" alt="">
                 </div>
                 <div class="col-sm-6">
                     <div class="row border border-white p-1" style="border-top-right-radius: 20px;">
@@ -73,10 +73,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <button class="btn btn-warning" onclick="pagar_deudas()">$$$ PAGAR DEUDAS</button>
-                        </div>
+                        </div>                        
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -111,6 +112,21 @@
                     </div>
                 </div>
             </div>
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <h1 class="text-white">
+                        <img src="../media/recursos/logo.png" width="40px" height="40px" alt="">
+                        Abonar Dinero</h1>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <input class="form-control" placeholder="3500.." type="text" id="valor_abono">
+                        </div>
+                        <div class="col-sm-5">
+                            <button class="btn btn-info"  onclick="abonar()">$$$ ABONAR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -132,6 +148,9 @@
 <script>
     $(document).ready(function(){
     $("input[name=codigo]").change(function(){
+        if($('#codigo').val()=="CFFL53WJN"){
+            document.getElementById("codigo").value = "1122334455";
+            }
       cadena="form1=" + $('#codigo').val();
             $.ajax({
               type:"POST",
@@ -220,6 +239,35 @@
                     alertify.success("Retiro de BIT-MATHEWS exitosa!!");
                     solicitar_informacion();
                     $('input[id="valor_retiro"]').val('');
+                    setTimeout ("window.location.reload()", 2000);
+                    return false;
+                }else if(r==3){
+                    alertify.error("No puedes ingresar valores negativos o nulos");
+                    return false;
+                }else if(r==2){
+                    alertify.error("No hay registros, verifica que hayas escaneado un codigo");
+                    return false;
+                }else if(r==4){
+                    alertify.error("No tienes este monto en tu cuenta, intenta con un valor menor");
+                    return false;
+                }
+              }
+            });
+          }
+
+          function abonar(){
+            cadena="form1=" + $('#valor_abono').val()+
+                   "&form2=" + $('#u_id').val();
+                   
+            $.ajax({
+              type:"POST",
+              url:"../../controller/abono.php", //validacion de datos de registro
+              data:cadena,
+              success:function(r){
+                if(r==1){
+                    alertify.success("abono de BIT-MATHEWS exitosa!!");
+                    solicitar_informacion();
+                    $('input[id="valor_abono"]').val('');
                     setTimeout ("window.location.reload()", 2000);
                     return false;
                 }else if(r==3){
