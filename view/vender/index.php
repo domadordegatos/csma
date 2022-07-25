@@ -9,12 +9,8 @@
     <link rel="icon" type="image/png" href="../media/recursos/ico.png" />
 </head>
 <body onload="cancelar_compra()">
-    <div class="container text-white d-flex justify-content-center my-2">
 
-        <h1 class="px-3" style="border:white 2px solid; border-radius: 25px;">VENTAS EN CAFETERIA</h1>
-    </div>
-
-    <div class="container-x d-flex">
+    <div class="container-x d-flex mt-4">
         <div class="contenedor1" style="width: 30%; margin-left: 3rem; margin-right: 3rem;">
             <div class="row my-3">
                 <div class="col-sm-6 border border-white d-flex justify-content-center align-items-center" style="border-top-left-radius: 20px; border-bottom-left-radius: 20px;">
@@ -58,18 +54,13 @@
                     <input class="form-control col-sm-5 mt-1 mx-2" autofocus type="text" id="codigo" name="codigo" placeholder="123..">
                 </div>
             </div>
-            <div class="row mt-5">
-                <div class="col-sm-6">
-                    <button class="btn btn-danger" onclick="cancelar_compra()">Cancelar compra</button>
-                </div>
-                <div class="col-sm-6 align-items-right">
-                    <button class="btn btn-success" onclick="crearventa()">$$ Realizar compra</button>
-                </div>
-            </div>
-
-            <div class="row mt-3">
+            <div class="row mt-5 w-100">
                 <div class="col-sm-12">
-                    <button class="btn btn-warning" onclick="prestar_dinero()">Prestar dinero</button>
+                    <div class="row">
+                        <div class="col-sm-4" style="padding: 0 3px 0 3px;"><button class="btn btn-block btn-lg btn-danger" onclick="cancelar_compra()">Cancelar compra</button></div>
+                        <div class="col-sm-4" style="padding: 0 3px 0 3px;"><button class="btn btn-block btn-lg btn-success" onclick="crearventa()">Realizar compra</button></div>
+                        <div class="col-sm-4" style="padding: 0 3px 0 3px;"><button class="btn btn-block btn-lg btn-warning" onclick="prestar_dinero()">Prestar dinero</button></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,18 +122,6 @@
                     </button>
                     <button class="btn btn-warning" onclick="carrito_compras(20)">
                         <img src="../media/recursos/productos/20.png" alt="" width="80px" height="80px">
-                    </button>
-		    <button class="btn btn-info" onclick="carrito_compras(21)">
-                        <img src="../media/recursos/productos/21.png" alt="" width="80px" height="80px">
-                    </button>
-		    <button class="btn btn-info" onclick="carrito_compras(22)">
-                        <img src="../media/recursos/productos/22.png" alt="" width="80px" height="80px">
-                    </button>
-		    <button class="btn btn-info" onclick="carrito_compras(23)">
-                        <img src="../media/recursos/productos/23.png" alt="" width="80px" height="80px">
-                    </button>
-		    <button class="btn btn-info" onclick="carrito_compras(24)">
-                        <img src="../media/recursos/productos/24.png" alt="" width="80px" height="80px">
                     </button>
                 </div>
                 <div class="col-sm-12">

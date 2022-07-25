@@ -10,10 +10,6 @@
 </head>
 <?php if($ver[5] == 2 || $ver[5] == 3){ ?>
 <body>
-    <div class="container text-white d-flex justify-content-center my-2">
-
-        <h1 class="px-3" style="border:white 2px solid; border-radius: 25px;">CONTROL DE BIT-MATHEWS</h1>
-    </div>
 
     <div class="container my-4 d-flex justify-content-between">
         <div class="contenedor1 row w-50">

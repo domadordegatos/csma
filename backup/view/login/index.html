@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>LOGIN CSMA-BIT-MATHEWS</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/themes/default.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/themes/semantic.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/themes/bootstrap.min.css"/>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<body>
+  <div class="session">
+    <div class="left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-cash-stack" viewBox="0 0 16 16">
+        <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+        <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
+      </svg>  
+    </div>
+    <div id="form" class="log-in"> 
+      <h4>Ingresa a <span>BIT-MATHEWS</span></h4>
+      <p>Espacio totalmente reservado para el control y gestion de administrativos csma</p>
+      <div class="floating-label">
+        <input placeholder="user..." type="text" name="email" id="email" autocomplete="off">
+        <label for="email">User:</label>
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          </svg>
+
+        </div>
+      </div>
+      <div class="floating-label">
+        <input placeholder="Password" type="password" name="password" id="password" autocomplete="off">
+        <label for="password">Password:</label>
+        <div class="icon">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-lock-fill" viewBox="0 0 16 16">
+            <path d="M7 6a1 1 0 0 1 2 0v1H7V6zM6 8.3c0-.042.02-.107.105-.175A.637.637 0 0 1 6.5 8h3a.64.64 0 0 1 .395.125c.085.068.105.133.105.175v2.4c0 .042-.02.107-.105.175A.637.637 0 0 1 9.5 11h-3a.637.637 0 0 1-.395-.125C6.02 10.807 6 10.742 6 10.7V8.3z"/>
+            <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-2 6v1.076c.54.166 1 .597 1 1.224v2.4c0 .816-.781 1.3-1.5 1.3h-3c-.719 0-1.5-.484-1.5-1.3V8.3c0-.627.46-1.058 1-1.224V6a2 2 0 1 1 4 0z"/>
+          </svg>
+		<rect class="st0" width="24" height="24"/>
+		<path class="st1" d="M19,21H5V9h14V21z M6,20h12V10H6V20z"/>
+		<path class="st1" d="M16.5,10h-1V7c0-1.9-1.6-3.5-3.5-3.5S8.5,5.1,8.5,7v3h-1V7c0-2.5,2-4.5,4.5-4.5s4.5,2,4.5,4.5V10z"/>
+		<path class="st1" d="m12 16.5c-0.8 0-1.5-0.7-1.5-1.5s0.7-1.5 1.5-1.5 1.5 0.7 1.5 1.5-0.7 1.5-1.5 1.5zm0-2c-0.3 0-0.5 0.2-0.5 0.5s0.2 0.5 0.5 0.5 0.5-0.2 0.5-0.5-0.2-0.5-0.5-0.5z"/>
+</svg>
+        </div>
+        
+      </div>
+      <button onClick="login()">Ingresar</button>
+      <a href="https://www.google.com/search?rlz=1C1PRFI_enCO903CO903&sxsrf=ALeKk01TY5XxK25Vwyzivz0oQeVi-s_XFw%3A1615134316452&ei=bP5EYPT2GuiH5wLThKRg&q=telefono%3A+300-257-7170&oq=telefono%3A+300-257-7170&gs_lcp=Cgdnd3Mtd2l6EAM6BAgjECc6CAgAELEDEIMBOgIIADoFCAAQsQM6CwgAELEDEMcBEKMCOgQIABBDOgcIABCxAxBDOgcILhCxAxBDOg0IABCHAhCxAxCDARAUOgQILhBDOgUILhCxAzoNCAAQsQMQxwEQowIQQzoKCAAQxwEQowIQQzoGCAAQFhAeOgUIIRCgAVDRB1jyX2C4cWgGcAJ4AIAB3gGIAYkdkgEGMC4yNC4xmAEAoAEBqgEHZ3dzLXdpesABAQ&sclient=gws-wiz&ved=0ahUKEwj03MiZzJ7vAhXow1kKHVMCCQwQ4dUDCA0&uact=5" class="discrete" target="_blank">Cotacto Soporte</a>
+    </div>
+  </div>
+</body>
+<!-- partial -->
+  
+</body>
+</html>
+
+<script>
+  function login(){
+		cadena="form1=" + $('#email').val()+
+			  "&form2=" + $('#password').val();
+                  $.ajax({
+                  type:"POST",
+                  url:"../../controller/login.php",
+                  data:cadena,
+                  success:function(r){
+                    if(r==1){
+                      window.location="../home/index.php";
+                    }else if(r==2){
+                      alertify.error("Usuario o contraseña invalidos, por favor verifica");
+                      return false;
+                    }else if(r==3){
+                      alertify.error("Su usuario esta desactivado");
+                      return false;
+                    }else{
+					            alertify.error("Error de sistema");
+                      return false;
+					}
+                  }
+                });
+	}
+</script>
