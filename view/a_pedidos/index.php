@@ -1,4 +1,42 @@
-<?php require_once "../home/navbar.php" ?>
+<?php require_once "../home/navbar.php" ;
+require_once "../../model/conexion.php";
+$conexion=conexion();
+date_default_timezone_set('America/Bogota');
+            $fecha= date('Y-m-d');
+            $anio = date("Y");
+            $mes = date("m");
+$sql="SELECT *FROM carga_almuerzos
+JOIN users_admins on users_admins.id_user = carga_almuerzos.id_admin ORDER BY id_carga desc LIMIT 100";
+$result=mysqli_query($conexion,$sql);
+  $maci=$anio.'-'.$mes.'-01';$macf=$anio.'-'.$mes.'-31';
+  $mani=$anio.'-'.($mes-1).'-01';$manf=$anio.'-'.($mes-1).'-31';
+  $prepe="SELECT valor FROM categoria_movimientos_almuerzos WHERE id_categoria = 21";
+  $pregr="SELECT valor FROM categoria_movimientos_almuerzos WHERE id_categoria = 22";
+  $predo="SELECT valor FROM categoria_movimientos_almuerzos WHERE id_categoria = 23";
+  $presa="SELECT valor FROM categoria_movimientos_almuerzos WHERE id_categoria = 24";
+  $rprepe=mysqli_query($conexion,$prepe); $drprepe=mysqli_fetch_row($rprepe);
+  $rpregr=mysqli_query($conexion,$pregr); $drpregr=mysqli_fetch_row($rpregr);
+  $rpredo=mysqli_query($conexion,$predo); $drpredo=mysqli_fetch_row($rpredo);
+  $rpresa=mysqli_query($conexion,$presa); $drpresa=mysqli_fetch_row($rpresa);
+
+  $mape="SELECT SUM(cantidad) FROM movimientos_almuerzos WHERE tipo_venta = 1 AND categoria =  21 AND fecha BETWEEN '$maci' AND '$macf'";
+  $magr="SELECT SUM(cantidad) FROM movimientos_almuerzos WHERE tipo_venta = 1 AND categoria =  22 AND fecha BETWEEN '$maci' AND '$macf'";
+  $mado="SELECT SUM(cantidad) FROM movimientos_almuerzos WHERE tipo_venta = 1 AND categoria =  23 AND fecha BETWEEN '$maci' AND '$macf'";
+  $masa="SELECT SUM(cantidad) FROM movimientos_almuerzos WHERE tipo_venta = 1 AND categoria =  24 AND fecha BETWEEN '$maci' AND '$macf'";
+  $rmape=mysqli_query($conexion,$mape); $drmape=mysqli_fetch_row($rmape);
+  $rmagr=mysqli_query($conexion,$magr); $drmagr=mysqli_fetch_row($rmagr);
+  $rmado=mysqli_query($conexion,$mado); $drmado=mysqli_fetch_row($rmado);
+  $rmasa=mysqli_query($conexion,$masa); $drmasa=mysqli_fetch_row($rmasa);
+
+  $mantpe="SELECT SUM(cantidad) FROM movimientos_almuerzos WHERE tipo_venta = 1 AND categoria =  21 AND fecha BETWEEN '$mani' AND '$manf'";
+  $mantgr="SELECT SUM(cantidad) FROM movimientos_almuerzos WHERE tipo_venta = 1 AND categoria =  22 AND fecha BETWEEN '$mani' AND '$manf'";
+  $mantdo="SELECT SUM(cantidad) FROM movimientos_almuerzos WHERE tipo_venta = 1 AND categoria =  23 AND fecha BETWEEN '$mani' AND '$manf'";
+  $mantsa="SELECT SUM(cantidad) FROM movimientos_almuerzos WHERE tipo_venta = 1 AND categoria =  24 AND fecha BETWEEN '$mani' AND '$manf'";
+  $rmantpe=mysqli_query($conexion,$mantpe); $drmantpe=mysqli_fetch_row($rmantpe);
+  $rmantgr=mysqli_query($conexion,$mantgr); $drmantgr=mysqli_fetch_row($rmantgr);
+  $rmantdo=mysqli_query($conexion,$mantdo); $drmantdo=mysqli_fetch_row($rmantdo);
+  $rmantsa=mysqli_query($conexion,$mantsa); $drmantsa=mysqli_fetch_row($rmantsa);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,125 +46,84 @@
     <title>Gestion Almuerzos</title>
     <?php require_once "../../model/libraries/lib.php"; ?>
 </head>
-<body>
 <?php if($ver[5] == 2 || $ver[5] == 3){ ?>
-    <div class="container d-flex w-100 justify-content-between">
-        <div class="contenedor1 row w-50">
-            <div class="row mt-2">
-                <h1 class="text-white col-sm-9">
-                    <img src="../media/recursos/logo.png" width="40px" height="40px" alt="">
-                    Gestion Almuerzos</h1>
-                <input class="form-control col-sm-3 mt-2" autofocus type="text" id="codigo" name="codigo" placeholder="123..">
-            </div>
-            <div class="row my-3">
-                <div class="col-sm-6 border border-white d-flex justify-content-center align-items-center" style="border-top-left-radius: 20px; border-bottom-left-radius: 20px;">
-                    <img src="../media/recursos/profile.png" id="u_img" width="95%" alt="">
-                </div>
-                <div class="col-sm-6">
-                    <div class="row border border-white p-1" style="border-top-right-radius: 20px;">
-                        <div class="col-sm-12">
-                            <label class="text-white">Nombre: <input type="text" disabled id="u_name" class="form-control form-control-sm"></label>
-                        </div>
-                    </div>
-                    <div class="row border border-white p-1">
-                        <div class="col-sm-12">
-                            <label class="text-white" id="prueba">Apellido: <input type="text" disabled id="u_last_name" class="form-control form-control-sm"></label>
-                        </div>
-                    </div>
-                    <div class="row border border-white p-1">
-                        <div class="col-sm-12">
-                            <label class="text-white">Grado: <input type="text" disabled id="u_grade" class="form-control form-control-sm"></label>
-                        </div>
-                    </div>
-                    <div class="row border border-white p-1">
-                        <div class="col-sm-12">
-                            <label class="text-white">Id: <input type="text" disabled id="u_id" class="form-control form-control-sm"></label>
-                        </div>
-                    </div>
-                    <div class="row border border-white p-1" style="border-bottom-right-radius: 20px;">
-                        <div class="col-sm-12">
-                            <label class="text-white">Saldo: $<input type="text" disabled id="u_coin" class="form-control form-control-sm"></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row w-100">
-                <div class="col-sm-12 d-flex justify-content-center pt-0 mt-0">
-                    <button class="btn btn-success" onclick="location.reload()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-upc-scan" viewBox="0 0 16 16">
-                            <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5zM3 4.5a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-7zm3 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7z"/>
-                          </svg>  SCAN
-                    </button>
-                </div>
-            </div>
+<body>
+    <div class="container">
+    <div class="contendor_principal mt-2">
+        <table class="table table-sm table-bordered text-white">
+          <tr class="table-warning text-dark">
+            <td colspan="4" class="text-center">VENTAS DE ESTE MES</td>
+          </tr>
+          <tr class="text-center">
+            <td>Pequeños</td>
+            <td>Grandes</td>
+            <td>Docentes</td>
+            <td>Saludables</td>
+          </tr>
+          <tr class="text-center">
+            <td><?php echo $drmape[0]; ?></td>
+            <td><?php echo $drmagr[0]; ?></td>
+            <td><?php echo $drmado[0]; ?></td>
+            <td><?php echo $drmasa[0]; ?></td>
+          </tr>
+          <tr class="text-right">
+            <td colspan="4">Ganancias: $<?php echo (($drmape[0]*$drprepe[0])+($drmagr[0]*$drpregr[0])+($drmado[0]*$drpredo[0])+($drmasa[0]*$drpresa[0])) ?></td>
+          </tr>
+          <tr class="table-warning text-dark">
+            <td colspan="4" class="text-center">VENTAS MES PASADO</td>
+          </tr>
+          <tr class="text-center">
+            <td>Pequeños</td>
+            <td>Grandes</td>
+            <td>Docentes</td>
+            <td>Saludables</td>
+          </tr>
+          <tr class="text-center">
+            <td><?php echo $drmantpe[0]; ?></td>
+            <td><?php echo $drmantgr[0]; ?></td>
+            <td><?php echo $drmantdo[0]; ?></td>
+            <td><?php echo $drmantsa[0]; ?></td>
+          </tr>
+          <tr class="text-right">
+            <td colspan="4">Ganancias: $<?php echo (($drmantpe[0]*$drprepe[0])+($drmantgr[0]*$drpregr[0])+($drmantdo[0]*$drpredo[0])+($drmantsa[0]*$drpresa[0])) ?></td>
+          </tr>
+        </table>
+      </div>
+      <div class="contendor1 text-white mt-3">
+        <h3>Historial de Pedidos</h3>
+        <div class="row">
+          <div class="col-sm-12">
+            <table class="table table-bordered table-sm">
+              <tr class="table-warning">
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Solicitante</th>
+                <th>Pequeños</th>
+                <th>Grandes</th>
+                <th>Docentes</th>
+                <th>Saludables</th>
+              </tr>
+              <?php while ($ver=mysqli_fetch_row($result)):?>
+              <tr class="text-white">
+                <th><?php echo $ver[6]; ?></th>
+                <th><?php echo $ver[7]; ?></th>
+                <th><?php echo $ver[9]; ?></th>
+                <th class="text-center"><?php echo $ver[2]; ?></th>
+                <th class="text-center"><?php echo $ver[3]; ?></th>
+                <th class="text-center"><?php echo $ver[4]; ?></th>
+                <th class="text-center"><?php echo $ver[5]; ?></th>
+              </tr>
+              <?php endwhile; ?>
+            </table>
+          </div>
         </div>
-        <div class="pl-5 contenedor2 mt-2 text-white w-50">
-            <h1>Almuerzos del usuario</h1>
-            <div class="row mb-2 text-center">
-                <div class="col-sm-3"><b>Item</b></div>
-                <div class="col-sm-3"><b>Actuales</b></div>
-                <div class="col-sm-6"><b>Cantidad a Agregar</b></div>
-            </div>
-            <div class="mb-3 row">
-                <label for="pequeno" class="col-sm-3 col-form-label"><b>Pequeño</b> </label>
-                <div class="col-sm-3">
-                    <input type="number" disabled class="form-control" id="pequeno_2">
-                </div>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" id="pequeno" value="0" required>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="grande" class="col-sm-3 col-form-label"><b>Grande</b> </label>
-                <div class="col-sm-3">
-                    <input type="number" disabled class="form-control" id="grande_2">
-                </div>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" id="grande" value="0" required>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="Docentes" class="col-sm-3 col-form-label"><b>Docente</b> </label>
-                <div class="col-sm-3">
-                    <input type="number" disabled class="form-control" id="docente_2">
-                </div>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" id="docente" value="0" required>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="saludable" class="col-sm-3 col-form-label"><b>Saludable</b> </label>
-                <div class="col-sm-3">
-                    <input type="number" disabled class="form-control" id="saludable_2">
-                </div>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" id="saludable" value="0" required>
-                </div>
-            </div>
+      </div>
+      <div class="contendor2">
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <button class="btn btn-lg btn-block btn-warning text-white" onclick="actualizar()">Actualizar</button>
-                </div>
-            </div>
-            <div class="row pt-1">
-                <div class="col-sm-6 d-flex align-items-center">
-                    <input type="text" id="valor_abono" class="form-control" placeholder="$...">
-                </div>
-                <div class="col-sm-6">
-                    <button class="btn btn-block btn-lg btn-info" onclick="abonar()">Abonar</button>
-                </div>
-            </div>
-            <div class="row pt-1">
-                <div class="col-sm-12">
-                    <button class="btn btn-block btn-lg btn-danger" onclick="vaciar()">Vaciar almuerzos a cero</button>
-                </div>
-            </div>
-        </div>
-        
+      </div>
     </div>
-    <?php } ?>
 </body>
+<?php } ?>
 </html>
 
 <style>

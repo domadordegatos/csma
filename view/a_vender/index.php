@@ -9,6 +9,7 @@
     <link rel="icon" type="image/png" href="../media/recursos/ico.png" />
 </head>
 <body onload="cancelar_compra()">
+<?php if($ver[5] == 2 || $ver[5] == 3){ ?>
 
     <div class="container-x d-flex mt-4">
         <div class="contenedor1" style="width: 40%; margin-left: 3rem; margin-right: 3rem;">
@@ -90,7 +91,7 @@
             <div class="row mt-5 w-100">
                 <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-sm-4" style="padding: 0 3px 0 3px;"><button class="py-4 btn btn-block btn-lg btn-danger" onclick="cancelar_compra()">Cancelar compra</button></div>
+                        <div class="col-sm-4" style="padding: 0 3px 0 3px;"><button class="py-4 btn btn-block btn-lg btn-info" onclick="cancelar_compra()">Cancelar compra</button></div>
                         <div class="col-sm-4" style="padding: 0 3px 0 3px;"><button class="py-4 btn btn-block btn-lg btn-success" onclick="crearventa()">Realizar compra</button></div>
                         <div class="col-sm-4" style="padding: 0 3px 0 3px;"><button class="py-4 btn btn-block btn-lg btn-warning" onclick="prestar_dinero()">Prestar dinero</button></div>
                     </div>
@@ -137,6 +138,7 @@
 
         </div>
     </div>
+    <?php } ?>
 </body>
 </html>
 

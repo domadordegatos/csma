@@ -2,6 +2,231 @@
 
     class edicion_usuario{
 
+        function transferencia(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            date_default_timezone_set('America/Bogota');
+              $time = time();
+              $hora = date("H:i:s",$time);
+              $fecha= date('Y-m-d');
+              $cod1=$_POST['form1'];$cod2=$_POST['form2'];$valor_carga=$_POST['form3'];
+              $user = $_SESSION['user'];
+              $id_admin=self::id_admin($user);
+              $id_cod1=self::id_user($cod1);
+              $id_cod2=self::id_user($cod2);
+
+            //$id_user=self::id_usuario($id);
+            $cod_1_val_antiguo=self::valor_antiguo_cafeteria($cod1);
+            $cod_2_val_antiguo=self::valor_antiguo_cafeteria($cod2);
+            $precio_trans=self::precio_transferencia();
+            
+            
+            if($cod_1_val_antiguo < ($valor_carga+$precio_trans)){
+                return 3;
+            }else{
+                $val_new_cod1 = $cod_1_val_antiguo-($valor_carga+$precio_trans);
+                $val_new_cod2 = $cod_2_val_antiguo+$valor_carga;
+                $id_factura=self::crearfolio_cafeteria();
+                $insert1="INSERT INTO movimientos_dinero VALUES ('','$id_factura',$id_admin,'$id_cod1',25,'$valor_carga','$cod_1_val_antiguo','$val_new_cod1','$fecha','$hora')";
+                //echo $insert1;
+                $ejecutar1=mysqli_query($conexion, $insert1);
+                if($ejecutar1){
+                    $id_factura=self::crearfolio_cafeteria();
+                    $insert2="INSERT INTO movimientos_dinero VALUES ('','$id_factura',$id_admin,'$id_cod2',26,'$valor_carga','$cod_2_val_antiguo','$val_new_cod2','$fecha','$hora')";
+                    $ejecutar2=mysqli_query($conexion, $insert2);
+                    if($ejecutar2){
+                        $insert3="UPDATE usuarios SET saldo = '$val_new_cod1' WHERE id_usuario = '$id_cod1'";
+                        $ejecutar3=mysqli_query($conexion, $insert3);
+                        if($ejecutar3){
+                            $insert4="UPDATE usuarios SET saldo = '$val_new_cod2' WHERE id_usuario = '$id_cod2'";
+                            $ejecutar4=mysqli_query($conexion, $insert4);
+                            if($ejecutar4){
+                                echo 1;
+                            }else{
+                                return "error actualizando saldo 1";
+                            }
+                        }else{
+                            return "error actualizando saldo 1";
+                        }
+                    }else{
+                        return "error insertando 2";
+                    }
+                }else{
+                    return "error insertando 1";
+                }
+            }
+          }
+        
+        function actualizar_cafeteria(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $id=$_POST['form1']; $val=$_POST['form2'];
+                if($val<0){/* estas tratando de ingresar un valor nulo */
+                    echo 3;
+                }else{
+                        $sql="UPDATE productos SET precio = '$val' WHERE id_producto = '$id'";
+                        $ejecutar=mysqli_query($conexion, $sql);
+                        if($ejecutar){/* si lo ejecuto */
+                            echo 1; /* exitoso */
+                        }else{
+                            echo 2;
+                        }
+                }
+
+        }
+
+        function actualizar_almuerzos(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $id=$_POST['form1']; $val=$_POST['form2'];
+                if($val<0){/* estas tratando de ingresar un valor nulo */
+                    echo 3;
+                }else{
+                        $sql="UPDATE categoria_movimientos_almuerzos SET valor = '$val' WHERE id_categoria = '$id'";
+                        $ejecutar=mysqli_query($conexion, $sql);
+                        if($ejecutar){/* si lo ejecuto */
+                            echo 1; /* exitoso */
+                        }else{
+                            echo 2;
+                        }
+                }
+
+        }
+        function ob_datos_almuerzos(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $id=$_POST['form1'];
+
+            $sql1="SELECT * FROM categoria_movimientos_almuerzos where id_categoria = '$id'";
+                $result=mysqli_query($conexion,$sql1);
+                $ver=mysqli_fetch_row($result);
+                $datos=array( "0" => $ver[2]
+                                );
+                                return $datos;
+        }
+
+        function ob_datos_cafeteria(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $id=$_POST['form1'];
+
+            $sql1="SELECT * FROM productos WHERE id_producto = '$id'";
+                $result=mysqli_query($conexion,$sql1);
+                $ver=mysqli_fetch_row($result);
+                $datos=array( "0" => $ver[2]
+                                );
+                                return $datos;
+        }
+
+        function r_movimiento_detallado(){
+ 
+            unset($_SESSION['consulta_temp_detallada_almuerzos']);
+            $id=$_POST['form1'];
+            require_once "conexion.php";
+            $conexion=conexion();
+            $sql="SELECT movimientos_almuerzos.id_factura, users_admins.user,
+            movimientos_almuerzos.cantidad, movimientos_almuerzos.valor_antiguo, movimientos_almuerzos.valor_nuevo,
+            movimientos_almuerzos.fecha, movimientos_almuerzos.hora, tipo_movimientos_almuerzos.descripcion, categoria_movimientos_almuerzos.descripcion
+            FROM movimientos_almuerzos
+            JOIN usuarios ON usuarios.id_usuario = movimientos_almuerzos.id_user_movimiento
+            JOIN users_admins ON users_admins.id_user = movimientos_almuerzos.id_user_venta
+            JOIN tipo_movimientos_almuerzos ON tipo_movimientos_almuerzos.id_movimiento = movimientos_almuerzos.tipo_venta
+            JOIN categoria_movimientos_almuerzos ON categoria_movimientos_almuerzos.id_categoria = movimientos_almuerzos.categoria
+            WHERE movimientos_almuerzos.id_user_movimiento = '$id'
+            ORDER BY id_factura desc";
+            $result=mysqli_query($conexion,$sql);
+            if(mysqli_num_rows($result)<=0){
+                echo 2;//no existen datos del usuario
+              }else{
+                while ($ver1=mysqli_fetch_row($result)){
+                $tabla=$ver1[0]."||".
+                       $ver1[1]."||".
+                       $ver1[2]."||".
+                       $ver1[3]."||".
+                       $ver1[4]."||".
+                       $ver1[5]."||".
+                       $ver1[6]."||".
+                       $ver1[7]."||".
+                       $ver1[8]."||";
+                   $_SESSION['consulta_temp_detallada_almuerzos'][]=$tabla;
+                 }
+                 echo 1;
+              }
+        
+    }
+
+        function r_movimientos(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $id=$_POST['form1'];
+
+            if($id == 'A'){
+                unset($_SESSION['consulta_temp_almuerzos']);
+                $sql="SELECT usuarios.id_usuario, nombre, usuarios.apellido, usuarios.id_tarjeta, grados.descripcion, cartera_almuerzos.cartera FROM cartera_almuerzos JOIN usuarios ON usuarios.id_usuario = cartera_almuerzos.id_user JOIN grados ON grados.id_grado = usuarios.grado order BY cartera_almuerzos.cartera ASC";
+                $result=mysqli_query($conexion,$sql);
+                if(mysqli_num_rows($result)<=0){
+                    echo 2;//no existen datos del usuario
+                  }else{
+                    while ($ver1=mysqli_fetch_row($result)){
+                    $tabla=$ver1[0]."||".
+                           $ver1[1]."||".
+                           $ver1[2]."||".
+                           $ver1[3]."||".
+                           $ver1[4]."||".
+                           $ver1[5]."||";
+                       $_SESSION['consulta_temp_almuerzos'][]=$tabla;
+                     }
+                     echo 1;
+                  }
+            }else{
+                unset($_SESSION['consulta_temp_almuerzos']);
+                require_once "conexion.php";
+                $conexion=conexion();
+                $id=$_POST['form1'];
+                $id_usuario=self::id_usuario($id);
+                $sql="SELECT usuarios.id_usuario, nombre, usuarios.apellido, usuarios.id_tarjeta, grados.descripcion, cartera_almuerzos.cartera FROM cartera_almuerzos JOIN usuarios ON usuarios.id_usuario = cartera_almuerzos.id_user JOIN grados ON grados.id_grado = usuarios.grado WHERE cartera_almuerzos.id_user = '245' order BY cartera_almuerzos.cartera ASC";
+                $result=mysqli_query($conexion,$sql);
+                if(mysqli_num_rows($result)<=0){
+                    echo 2;//no existen datos del usuario
+                  }else{
+                    while ($ver1=mysqli_fetch_row($result)){
+                    $tabla=$ver1[0]."||".
+                           $ver1[1]."||".
+                           $ver1[2]."||".
+                           $ver1[3]."||".
+                           $ver1[4]."||".
+                           $ver1[5]."||";
+                       $_SESSION['consulta_temp_almuerzos'][]=$tabla;
+                     }
+                     echo 1;
+                  }
+            }
+        }
+
+        function cargar_almuerzos(){
+            date_default_timezone_set('America/Bogota');
+            $time = time();
+            $hora = date("H:i:s",$time);
+            $fecha= date('Y-m-d');
+            require_once "conexion.php";
+            $conexion=conexion();
+            $pequeno=$_POST['form1']; $grande=$_POST['form2']; $docente=$_POST['form3']; $saludable=$_POST['form4'];
+            $user = $_SESSION['user'];
+            $id_admin=self::id_admin($user);
+
+                if($pequeno<0 || $grande<0 || $docente<0 || $saludable<0){/* estas tratando de ingresar un valor nulo */
+                    echo 3;
+                }else{
+                        $sql="INSERT INTO carga_almuerzos VALUES ('','$id_admin','$pequeno','$grande','$docente','$saludable','$fecha','$hora')";
+                        $ejecutar=mysqli_query($conexion, $sql);
+                        
+                        if($ejecutar){/* si lo ejecuto */
+                            echo 1; /* exitoso */
+                        }
+                }
+
+        }
+
         function prestar_dinero(){
             require_once "conexion.php";
             $conexion=conexion();
@@ -54,7 +279,7 @@
                         for ($i=0; $i < count($datos) ; $i++) {
                             $d=explode("||", $datos[$i]);
                 
-                            $insert="INSERT INTO movimientos_almuerzos VALUES ('','$id_factura','$id_admin','$id_user',3,$d[0],'$c','$valor_antiguo','$valor_antiguo','$fecha','$hora')";
+                            $insert="INSERT INTO movimientos_almuerzos VALUES ('','$id_factura','$id_admin','$id_user',3,$d[0],'$c','$valor_antiguo','$pago_final_2','$fecha','$hora')";
                               $r=$r + $result=mysqli_query($conexion,$insert);
                           }
                           if($r){echo 1;}
@@ -162,6 +387,25 @@
                                 return $datos;
         }
 
+        function ob_datos_carga_almuerzos(){
+            date_default_timezone_set('America/Bogota');
+            $time = time();
+            $hora = date("H:i:s",$time);
+            $fecha= date('Y-m-d');
+            require_once "conexion.php";
+            $conexion=conexion();
+
+            $sql1="SELECT * FROM carga_almuerzos JOIN users_admins ON carga_almuerzos.id_admin = users_admins.id_user where fecha = '$fecha' ORDER BY id_carga DESC LIMIT 1";
+                $result=mysqli_query($conexion,$sql1);
+                $ver=mysqli_fetch_row($result);
+                $datos=array( "0" => $ver[2],
+                              "1" => $ver[3],
+                              "2" => $ver[4],
+                              "3" => $ver[5]
+                                );
+                                return $datos;
+        }
+
         function recargar(){
             date_default_timezone_set('America/Bogota');
             $time = time();
@@ -231,6 +475,18 @@
             require_once "conexion.php";
             $conexion=conexion();
             $sql="SELECT id_factura from movimientos_almuerzos group by id_factura desc";
+            $result=mysqli_query($conexion,$sql);
+            $id=mysqli_fetch_row($result)[0];
+            if($id=="" or $id==null or $id==0){
+              return 1;
+            }else{
+              return $id + 1;
+            }
+          }
+          public function crearfolio_cafeteria(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $sql="SELECT id_movimiento from movimientos_dinero group by id_factura desc";
             $result=mysqli_query($conexion,$sql);
             $id=mysqli_fetch_row($result)[0];
             if($id=="" or $id==null or $id==0){
@@ -327,6 +583,15 @@
               return $id;
               echo "id=>".$id;
           }
+          public function id_user($id_admin){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $sql="SELECT id_usuario from usuarios where id_tarjeta = '$id_admin'";
+            $result=mysqli_query($conexion,$sql);
+            $id=mysqli_fetch_row($result)[0];
+              return $id;
+              echo "id=>".$id;
+          }
           public function valores_almuerzos($id){
             require_once "conexion.php";
             $conexion=conexion();
@@ -350,6 +615,22 @@
             $result=mysqli_query($conexion,$sql);
             $ver=mysqli_fetch_row($result);
               return $ver[$pos];
+          }
+          public function valor_antiguo_cafeteria($id){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $sql="SELECT saldo FROM usuarios WHERE id_tarjeta = '$id'";
+            $result=mysqli_query($conexion,$sql);
+            $ver=mysqli_fetch_row($result);
+              return $ver[0];
+          }
+          public function precio_transferencia(){
+            require_once "conexion.php";
+            $conexion=conexion();
+            $sql="SELECT precio FROM productos WHERE id_producto=25";
+            $result=mysqli_query($conexion,$sql);
+            $ver=mysqli_fetch_row($result);
+              return $ver[0];
           }
 
     }

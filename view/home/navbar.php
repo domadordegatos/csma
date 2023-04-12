@@ -49,9 +49,36 @@
         </div>
       </li>
       <?php } ?>
+
+<!-- ----------------------------------------asistencias -->
+      <?php if($ver[5] == 3 || $ver[5] == 1){ ?>
+      <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_ventas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Asistencia
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown_ventas">
+          <a class="dropdown-item" href="../as_registro/index.php">Registro</a>
+          <a class="dropdown-item" href="../as_consulta/index.php">Consulta</a>
+        </div>
+      </li>
+      <?php } ?>
+
+      <!-- ----------------------------------------asistencias -->
+
+
       <?php if($ver[5] == 2 || $ver[5] == 3){ ?>
-      <li class="nav-item active">
-        <a class="nav-link" href="../revisar/index.php">Movimientos</a>
+      <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_ventas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Movimientos
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown_ventas">
+          <a class="dropdown-item" href="../revisar/index.php">Movimientos Cafetería</a>
+          <a class="dropdown-item" href="../a_revisar/index.php">Movimientos Almuerzos
+            <span class="position-absolute text-white top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              BETA
+            </span>
+          </a>
+        </div>
       </li>
       <?php } ?>
 
@@ -64,7 +91,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown_funcionalidades">
         <?php if($ver[5] == 2 || $ver[5] == 3){ ?>
-          <a class="dropdown-item" href="../usuarios/index.php">Usuarios
+          <a class="dropdown-item" href="../usuarios/index.php">Registro Usuarios
           <span class="position-absolute text-white top-0 start-100 translate-middle badge rounded-pill bg-danger">
               BETA
             </span>
@@ -74,7 +101,19 @@
               BETA
             </span>
           </a>
-          <a class="dropdown-item" href="../a_carga/index.php">Almuerzos
+          <?php } ?>
+          <a class="dropdown-item" href="../a_carga/index.php">Cargar Almuerzos
+            <span class="position-absolute text-white top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              BETA
+            </span>
+          </a>
+          <?php if($ver[5] == 2 || $ver[5] == 3){ ?>
+          <a class="dropdown-item" href="../a_pedidos/index.php">Registro Pedidos
+            <span class="position-absolute text-white top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              BETA
+            </span>
+          </a>
+          <a class="dropdown-item" href="../precios/index.php">Actualizacion Precios
             <span class="position-absolute text-white top-0 start-100 translate-middle badge rounded-pill bg-danger">
               BETA
             </span>
@@ -92,7 +131,7 @@
           <?php echo $ver[6]; ?>
         </strong>
       </li>
-      <li><a href="../../controller/salir.php" class="btn btn-info">
+      <li><a href="../../controller/salir.php" class="btn btn-warning">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-door-closed"
             viewBox="0 0 16 16">
             <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />

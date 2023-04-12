@@ -15,9 +15,10 @@
 </head>
 
 <body onload="r_codigo();">
+<?php if($ver[5] == 2 || $ver[5] == 3){ ?>
     <div class="contenedor mx-5">
         <h2 class="mt-4 text-white">Agregado de Usuarios</h2>
-        <div class="row">
+        <div class="row text-white">
             <div class="col-xl-6">
                 <div class="form-group row">
                     <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
@@ -62,12 +63,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6">
+            <div class="col-sm-12">
                 <div id="tabla_consulta" style="height: 520px; overflow: scroll; overflow-x: hidden;"></div>
             </div>
         </div>
     </div>
-
+    <?php } ?>
 </body>
 
 </html>

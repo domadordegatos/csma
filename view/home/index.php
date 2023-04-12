@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home csma</title>
+    <link rel="stylesheet" href="../style/style.css">
     <?php require_once "../../model/libraries/lib.php"; ?>
 </head>
 <body>
@@ -25,7 +26,7 @@
         <hr class="my-4">
         <p>Si necesitas ayuda, da click en el siguiente boton, recuerda dependiendo de tu rol tendras diferentes opciones.</p>
         <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+            <a class="btn btn-warning btn-lg" href="#" role="button">Learn more</a>
         </p>
         </div>
     </div>
